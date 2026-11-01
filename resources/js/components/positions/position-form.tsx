@@ -4,6 +4,7 @@ import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { createUuid } from '@/lib/uuid';
 import type {
     Position,
     PositionOptions,
@@ -317,7 +318,7 @@ export default function PositionForm({
                             requirements([
                                 ...form.data.requirements,
                                 {
-                                    id: crypto.randomUUID(),
+                                    id: createUuid(),
                                     text: '',
                                     category: 'essential',
                                     display_order:
@@ -490,7 +491,7 @@ export default function PositionForm({
                             topics([
                                 ...form.data.screening_topics,
                                 {
-                                    id: crypto.randomUUID(),
+                                    id: createUuid(),
                                     text: '',
                                     requirement_id: null,
                                     required: false,
