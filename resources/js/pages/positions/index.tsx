@@ -57,7 +57,7 @@ export default function Index({ positions }: { positions: Page }) {
                     ))}
                 </div>
             )}
-            {positions.total > 0 && (
+            {positions.last_page > 1 && (
                 <nav
                     aria-label="Pagination"
                     className="flex items-center justify-between gap-4 text-sm"
