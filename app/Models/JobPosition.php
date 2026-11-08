@@ -7,6 +7,7 @@ use App\Domain\Positions\Enums\InterviewLanguage;
 use App\Domain\Positions\Enums\PositionStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
@@ -18,6 +19,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class JobPosition extends Model
 {
+    /** @return HasMany<CandidateApplication, $this> */
+    public function applications(): HasMany
+    {
+        return $this->hasMany(CandidateApplication::class);
+    }
+
     protected $fillable = ['title', 'description', 'location', 'employment_type', 'interview_language', 'status', 'requirements', 'screening_topics'];
 
     protected function casts(): array

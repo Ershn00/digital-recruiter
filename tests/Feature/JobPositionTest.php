@@ -72,7 +72,7 @@ test('invalid basic and nested fields are rejected', function (string $key, mixe
     expect(JobPosition::count())->toBe(0);
 })->with([
     ['title', ''], ['description', ''], ['location', ''], ['employment_type', 'unknown'],
-    ['interview_language', 'tr'], ['status', 'archived'], ['requirements', null],
+    ['interview_language', 'unknown'], ['status', 'archived'], ['requirements', null],
     ['requirements.0.id', 'invalid'], ['requirements.0.text', ''], ['requirements.0.category', 'unknown'],
     ['requirements.0.display_order', -1], ['screening_topics.0.id', 'invalid'],
     ['screening_topics.0.text', ''], ['screening_topics.0.required', 'yes'],

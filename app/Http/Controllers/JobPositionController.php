@@ -8,6 +8,7 @@ use App\Domain\Positions\Enums\EmploymentType;
 use App\Domain\Positions\Enums\InterviewLanguage;
 use App\Domain\Positions\Enums\PositionStatus;
 use App\Http\Requests\Positions\SavePositionRequest;
+use App\Models\CandidateApplication;
 use App\Models\JobPosition;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -38,11 +39,23 @@ class JobPositionController extends Controller
         return to_route('positions.show', $position);
     }
 
-    public function show(JobPosition $position): Response
+    public function show(Request $request, JobPosition $position): Response
     {
         Gate::authorize('view', $position);
 
-        return Inertia::render('positions/show', ['position' => $position]);
+        $archived = $request->query('candidates') === 'archived';
+
+        return Inertia::render('positions/show', [
+            'position' => $position, 'candidateFilter' => $archived ? 'archived' : 'active',
+            'activeCandidateCount' => $position->applications()->whereNull('archived_at')->count(),
+            'archivedCandidateCount' => $position->applications()->whereNotNull('archived_at')->count(),
+            'applications' => $position->applications()->when($archived, fn ($query) => $query->whereNotNull('archived_at'), fn ($query) => $query->whereNull('archived_at'))->with('interview')->latest()->get()->map(function (CandidateApplication $application): CandidateApplication {
+                $application->setAttribute('interview_url', $application->interview ? route('interviews.show', ['interview' => $application->interview->id], false) : null);
+
+                $application->setAttribute('can_delete', $application->canDeleteForDemo());
+
+                return $application;
+            })]);
     }
 
     public function edit(JobPosition $position): Response|RedirectResponse

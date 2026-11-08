@@ -28,8 +28,10 @@ export type PositionOptions = {
     languages: string[];
 };
 export const label = (value: string) =>
-    value === 'en'
-        ? 'English'
-        : value
-              .replaceAll('_', ' ')
-              .replace(/^./, (letter) => letter.toUpperCase());
+    value === 'tr'
+        ? 'Türkçe'
+        : value === 'en'
+          ? 'English'
+          : value
+                .replaceAll('_', ' ')
+                .replace(/^./, (letter) => letter.toUpperCase());

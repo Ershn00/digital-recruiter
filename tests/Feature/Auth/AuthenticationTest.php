@@ -17,6 +17,10 @@ class AuthenticationTest extends TestCase
         $response = $this->get(route('login'));
 
         $response->assertOk();
+        $response->assertSee('href="/favicon.ico?v=be-1"', escape: false);
+        $response->assertSee('href="/favicon-32x32.png?v=be-1"', escape: false);
+        $response->assertSee('href="/favicon-16x16.png?v=be-1"', escape: false);
+        $response->assertDontSee('/favicon.svg', escape: false);
     }
 
     public function test_users_can_authenticate_using_the_login_screen()
